@@ -1,0 +1,1278 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cagri's first javascript</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+    <style>
+        .calculaterButton {
+
+            width: 60px;
+            height: 60px;
+            background-color: #72c274;
+            border: 2px solid #2b722e;
+            border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .calculaterButton:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: #45a049;
+        }
+
+
+        .inputClass {
+            width: 200px;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .inputClass:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 15px #2f7231;
+        }
+
+        .resultText {
+            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .calculaterText {
+            display: block;
+            padding-top: 75px;
+            line-height: 0;
+            font-size: 55px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inputToDo[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .inputButton {
+
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .buttonToDo {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline;
+        }
+
+        .buttonToDo:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background-color: white;
+            margin: 8px auto;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #b2bec3;
+            cursor: move;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li span {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .delete {
+            background-color: crimson;
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .delete:hover {
+            background-color: darkred;
+        }
+
+        .buttonPlus {
+            color: white;
+            background-color: #2b722e;
+            width: 80px;
+            height: 30px;
+            border-radius: 4px;
+            border-color: #2b722e;
+            box-shadow: 10px;
+            cursor: pointer;
+        }
+
+        .answer {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: aqua;
+            border-radius: 15px;
+            border-color: aqua;
+        }
+
+        .answer:hover {
+            background-color: rgb(54, 168, 168);
+        }
+
+        #weatherBox {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #555;
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 11px;
+            margin-left: 24px;
+            margin-top: 10px;
+        }
+
+        #weatherButton {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: darkcyan;
+            border-radius: 15px;
+            border-color: darkcyan;
+        }
+
+        #sortable {
+
+            list-style: none;
+            padding: 0;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .checked {
+            text-decoration: line-through;
+            color: gray;
+            background-color: #dcdcdc;
+        }
+
+        #checkList {
+            list-style: none;
+            padding: 0;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .liCheck {
+            margin: 8px;
+            padding: 10px;
+            border: 1px solid #f30f0f;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .deleteBtn {
+            width: 60px;
+            position: absolute;
+            right: 10px;
+            bottom: 8px;
+            border-radius: 15px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+
+        }
+
+        .editBtn {
+            position: absolute;
+            right: 10px;
+            border-radius: 15px;
+            width: 60px;
+            background: rgb(78, 194, 32);
+            color: white;
+            border: none;
+            padding: 5px 10px 5px 5px;
+            cursor: pointer;
+        }
+
+        .libaba {
+            background-color: #f0f0f0;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            width: 80%;
+        }
+
+        #noteInput {
+            width: 80%;
+            padding: 10px;
+        }
+
+        #addNote {
+            padding: 10px 20px;
+        }
+
+        .noteList {
+
+            list-style: none;
+            padding: 0;
+        }
+
+        .liShop {
+            margin: 5px 0;
+        }
+
+        #weatherBox1 {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        #dogBtn,
+        #catBtn,
+        #triviaBtn,
+        #jokeBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: red;
+            border-radius: 15px;
+            border-color: red;
+            text-align: center;
+            vertical-align: middle;
+            display: inline-block;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style="background-image: url('ccc.gif'); background-size: cover; background-repeat: no-repeat; background-position: center; width: 100%; height: 100vh;">
+        <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/4</p>
+        <p style="color: red; float: right;">This is my page</p>
+        <p style="color: purple ;">This is my first html code</p>
+        <p style="color: grey; text-align:center;">Grey text</p>
+        <div style="display: inline-block;">Left text</div>
+        <div style="display: inline-block;">Right text</div>
+        <button onclick="myFunction()" style=" color: red; border-radius: 5px;">Red Button</button>
+        <button style="color: purple; border-radius: 10px; float: right;">Purple Button</button>
+        <div style="text-align:center;"><button style=" color: pink;">Pink Button</button> </div>
+        <p>Search</p>
+        <input type="search" id="query" name="q" placeholder="Type...">
+        <button>Search</button>
+        <p>updated Index</p>
+        <p style="color: yellow;">Second update</p>
+        <img src="aaa.gif">
+        <img src="bbb.gif">
+    </div>
+
+    <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/7</p>
+
+
+    <img id="image" src="ccc.gif">
+    <button onclick="Delete()">Delete image</button>
+    <img id="image2" src="ccc.gif">
+    <button onclick="hide()">hide image</button>
+    <button onclick="show()">Show image</button>
+
+    <img style="display: block;" onmouseenter="bigImg(this)" onmouseleave="normalImg(this)" src="ccc.gif" width="200"
+        height="120">
+
+    <img src="bbb.gif" style="position: absolute;
+            top: 1000px;
+            animation: rightleft 3s infinite alternate linear;">
+
+    <style>
+        @keyframes rightleft {
+            0% {
+                left: 0;
+            }
+
+            100% {
+                left: calc(100% - 14%);
+            }
+        }
+    </style>
+    <br><br>
+    <button onclick="myFunction()">click </button>
+    <p id="aaa"></p>
+    <p>This is a new line </p>
+    <!-- onclick="purple1()" -->
+    <p id="red" onmousedown="red1()">Just Red </p>
+    <p id="purple" onmousedown="red2()" onmouseup="purple2()">Red and Purple </p>
+    <p style="color: rgb(5, 235, 120);">New line</p>
+    <p ondblclick="dbFunctoin()">Double click this text</p>
+    <p id="doubleClick"></p>
+
+    <p class="calculaterText">Calculater </p>
+
+    <input class="inputClass" type="number" id="number1" placeholder="1. Number">
+    <input class="inputClass" type="number" id="number2" placeholder="2. Number">
+
+    <br><br>
+
+
+    <button class="calculaterButton" onclick="calculate('+')">+</button>
+    <button class="calculaterButton" onclick="calculate('-')">-</button>
+    <button class="calculaterButton" onclick="calculate('*')">x</button>
+    <button class="calculaterButton" onclick="calculate('/')">/</button>
+
+    <p class="resultText" id="result">Result: </p>
+
+
+    <p style="text-align: center;">To Do list </p>
+
+    <div class="center">
+        <h1>To Do List</h1>
+        <div class="inputButton">
+            <input class="inputToDo" type="text" id="task" placeholder="Add New Task">
+            <button class="buttonToDo" onclick="addTask()">Add</button>
+        </div>
+        <ul id="list"></ul>
+
+    </div>
+
+    <p style="text-align: center;">To Do list with jQuery</p>
+
+    <div style="text-align: center;">
+        <h1>To Do List</h1>
+        <input class="inputToDo" type="text" id="taskInput" placeholder="Add New Task">
+        <button class="buttonToDo" id="addBtn">Add</button>
+
+        <ul id="TaskList"></ul>
+
+    </div>
+
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/8</p>
+
+    <h2>counter: <span id="numberx">0</span></h2>
+
+    <button class="buttonPlus" id="pluss">Plus</button>
+    <button class="buttonPlus" id="min"> Minus </button>
+    <button class="buttonPlus" id="res">Restart</button>
+
+
+    <button style="display: block; margin-top: 50px;" id="btnclk"> Click</button>
+    <p id="btntxt"> Hello Everynyan</p>
+
+
+    <h2>Question: What is HTML?</h2>
+
+    <button class="answer" data-correct="false">A programing language</button>
+    <button class="answer" data-correct="true">Hypertext Markup Language</button>
+    <button class="answer" data-correct="false">A browser</button>
+
+    <p id="resultA"></p>
+
+
+    <button class="buttonPlus" id="showBtn">Show</button>
+    <button class="buttonPlus" id="hideBtn">Hide</button>
+
+    <p style="display: none;" id="textShow"> Hello! I appear with a fade effect</p>
+
+
+    <div id="weatherBox">❄️</div>
+
+    <button id="weatherButton">Weather forecast</button>
+
+    <h4 style="text-align: center;">Drag and Sort</h4>
+
+    <ul id="sortable">
+        <li>Task 1</li>
+        <li>Task 2</li>
+        <li>Task 3</li>
+        <li>Task 4</li>
+
+    </ul>
+
+
+    <h2 style="text-align: center;">Checklist</h2>
+
+    <ul id="checkList">
+        <li class="liCheck">Read book</li>
+        <li class="liCheck">Drink water</li>
+        <li class="liCheck">Write code</li>
+        <li class="liCheck">Live</li>
+        <li class="liCheck">Walk</li>
+        <li class="liCheck">Think about universe and meaning of life if you want</li>
+    </ul>
+
+
+    <h2 style="text-align: center;">Coundown Checklist</h2>
+
+
+    <ul style="list-style: none; padding: 0; max-width: 400px; margin: auto; " id="cchecklist">
+        <li class="liCheck" data-time="10"> <span class="text"> Make coffe</span> <span class="timer">10</span></li>
+        <li class="liCheck " data-time="20"> <span class="text">Write some code</span> <span class="timer">20</span>
+        </li>
+        <li class="liCheck" data-time="15"> <span class="text"> Eat pizza (in canada)</span> <span
+                class="timer">15</span>
+        </li>
+    </ul>
+
+    <p style="font-size: 20px;">New notepad app</p>
+
+
+    <h3>Cagri's NotePad </h3>
+
+    <input type="text" id="noteInput" placeholder="Enter your Note...">
+    <button id="addNote">Add</button>
+
+    <ul id="noteList"></ul>
+
+    <p style="background-color: white; color: green; text-align: center; font-size: 40px;">2025/4/9</p>
+
+    <h4> Shopping List </h4>
+
+    <input style="margin: 5px; padding: 5px;" type="text" id="itemName" placeholder="Product Name">
+    <input style="margin: 5ps; padding: 5px;" type="text" id="itemPrice" placeholder="Product Price">
+    <button style="margin: 5px; padding: 5px;" id="addItem">Add</button>
+
+    <ul style="list-style: none;" id="shoppingList"></ul>
+
+    <h5>Total: <span id="total">¥0</span></h5>
+
+
+
+    <p>Weather app using API</p>
+
+    <input type="text" id="cityInput" placeholder="Enter city">
+    <button id="getWeather">search</button>
+    <div id="weatherBox1">
+    </div>
+
+    <p>dog ceo's api</p>
+    <button id="dogBtn">dog</button>
+    <img id="resim" src="" width="300" height="300">
+
+    <p>Cat api</p>
+    <button id="catBtn">Cat</button>
+    <img id="catImg" src="" width="300" height="300">
+
+
+    <p>Activity Generator (api get boomed)</p>
+
+    <button id="activityBtn">Get Activity</button>
+    <div id="activityG"></div>
+
+
+    <h3>Trivia API</h3>
+    <button id="triviaBtn">Click it</button>
+    <div style="font-size: 40px;" id="triviaD"></div>
+
+    <p style="background-color: white; color: rgb(255, 60, 0); text-align: center; font-size: 40px;">2025/4/10</p>
+
+    <p>Advice API </p>
+    <button id="adviceBtn">Give me Advice</button>
+    <div style="font-size: 40px;" id="adviceD"></div>
+
+    <p>News app using API</p>
+
+    <input id="searchInput" type="text">
+    <button id="searchBtn">Search</button>
+    <div id="newsList"></div>
+
+    <p>Google books api</p>
+
+    <input id="bookSearch" type="text">
+    <button id="bookBtn">Search</button>
+    <div id="bookDiv"></div>
+
+    <p>Zen Quotes API</p>
+
+    <button id="zenBtn">Zen</button>
+    <div id="zenC"></div>
+    <div id="zenA"></div>
+
+    <p>Cat Facts</p>
+    <button id="catFBtn">Cat</button>
+    <div id="fact"></div>
+
+    <p> Agify API </p>
+
+    <input id="nameIn" type="text">
+    <button id="agifyBtn">Agify</button>
+    <div id="agifyDiv"></div>
+    <div id="ageDiv"></div>
+
+    <h1>Joke API</h1>
+    <button id="jokeBtn">Press</button>
+    <div id="joke1"></div>
+    <div id="joke2"></div>
+
+    <h1>Genderize API </h1>
+    <input id="genderIn" type="text">
+    <button id="genderBtn">Search</button>
+    <div id="genderDiv"></div>
+
+    <h1>Pokemon API</h1>
+    <input type="text" id="pokeIn">
+    <button id="pokeBtn"> Search</button>
+    <img id="pokemonImg" src="">
+    <div id="pokeDiv0"></div>
+    <div id="pokeDiv1"></div>
+    <div id="pokeDiv2"></div>
+    <div id="pokeDiv3"></div>
+    <div id="pokeDiv4"></div>
+    <div id="pokeDiv5"></div>
+
+    <script>
+        //alert(" Hello! ");
+
+        //Pokemon api
+        $(document).ready(function () {
+            const pokeUrl = "https://pokeapi.co/api/v2/pokemon/pikachu"
+
+            $("#pokeBtn").click(function () {
+                $.getJSON(pokeUrl)
+                    .done(function (data) {
+                        console.log(data)
+                        const name = data.name;
+                        $("#pokeDiv0").text(name);
+                        const Aname = data.abilities[0].ability.name;
+                        $("#pokeDiv1").text(Aname)
+                        const aname = data.abilities[1].ability.name;
+                        $("#pokeDiv2").text(aname);
+                        const exp = data.base_experience;
+                        $("#pokeDiv3").text(exp);
+                        const weight = data.weight;
+                        $("#pokeDiv4").text(weight);
+                        const height = data.height
+                        $("#pokeDiv5").text(height);
+                        const img = data.sprites.front_default;
+                        $("#pokemonImg").attr("src", img);
+                    })
+            })
+        })
+
+        // gender api
+        $(document).ready(function () {
+
+            $("#genderBtn").click(function () {
+
+                const x = $("#genderIn").val().trim();
+                const genderUrl = `https://api.genderize.io/?name=${x}`;
+                if (x === "") return;
+
+                $("#genderIn").val("");
+                $.getJSON(genderUrl)
+                    .done(function (data) {
+                        console.log(data)
+
+                        const gender = data.gender;
+                        $("#genderDiv").text(gender);
+                    })
+            })
+        })
+
+
+        // JOKE API
+
+        $(document).ready(function () {
+            const jokeUrl = "https://official-joke-api.appspot.com/random_joke"
+
+            $("#jokeBtn").click(function () {
+                $.getJSON(jokeUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const first = data.setup;
+                        const second = data.punchline;
+
+                        $("#joke1").text(first);
+                        $("#joke2").text(second);
+                    });
+            });
+        });
+
+        // Agify API 
+        $(document).ready(function () {
+
+
+
+            $("#agifyBtn").click(function () {
+
+                const x = $("#nameIn").val().trim();
+                const agUrl = `https://api.agify.io/?name=${x}`;
+
+                if (x === "") return;
+
+                $.getJSON(agUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const age = data.age;
+                        const name = data.name;
+                        $("#agifyDiv").text(name);
+                        $("#ageDiv").text(age);
+
+                        $("#nameIn").empty();
+                    });
+            });
+        });
+
+        // Cat Facts API
+
+        $(document).ready(function () {
+            const catUrl = "https://catfact.ninja/fact";
+            $("#catFBtn").click(function () {
+                $.getJSON(catUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const fact = data.fact;
+                        $("#fact").text(fact);
+                    });
+            });
+        });
+
+        //Zen Quotes API
+
+        $(document).ready(function () {
+
+            const zenUrl = "https://api.allorigins.win/raw?url=https://zenquotes.io/api/random";
+
+            $("#zenBtn").click(function () {
+                $.getJSON(zenUrl)
+                    .done(function (data) {
+                        console.log(data)
+                        const text = data[0].q;
+                        const aut = data[0].a
+                        $("#zenC").text(text);
+                        $("#zenA").text(aut);
+                    });
+
+            });
+        });
+
+        // book api
+        $(document).ready(function () {
+            $("#bookBtn").click(function () {
+                const kelime = $("#bookSearch").val().trim();
+                if (kelime === "") return;
+                const bookUrl = `https://www.googleapis.com/books/v1/volumes?q=${kelime}`;
+
+
+                $.getJSON(bookUrl)
+                    .done(function (data) {
+                        $("#bookDiv").empty();
+                        console.log(data);
+                        data.items.slice(0, 3).forEach(function (kitap) {
+                            const baslik = kitap.volumeInfo.title;
+
+                            // İstersen yazdır:
+                            console.log(baslik);
+
+                            // Sayfaya eklemek için:
+                            const html = `<p>${baslik}</p>`;
+                            $("#bookDiv").append(html);
+                        });
+                    });
+            });
+
+        });
+
+        // news api
+        $(document).ready(function () {
+            const apiKey = "22c8e2326e604b6d9df649a27fbeeeed";
+
+            $("#searchBtn").click(function () {
+                const query = $("#searchInput").val().trim();
+                if (query === "") return;
+
+                const url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
+
+                $.getJSON(url)
+                    .done(function (data) {
+                        $("#newsList").empty(); // clear past news
+
+                        const articles = data.articles.slice(0, 3);;
+
+                        if (articles.length === 0) {
+                            $("#newsList").append("<p>No news found!</p>");
+                        } else {
+                            articles.forEach(function (article) {
+                                const card = `
+                            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                                <h3>${article.title}</h3>
+                                <img src="${article.urlToImage}" " style="width:100%; max-width:400px;">
+                                <p>${article.description || "No explanation!"}</p>
+                                <a href="${article.url}" target="_blank">Read News</a>
+                            </div>
+                        `;
+                                $("#newsList").append(card);
+                            });
+                        }
+                    })
+                    .fail(function () {
+                        $("#newsList").html("<p>Error!!.</p>");
+                    });
+            });
+        });
+
+
+        // triva api
+
+        $(document).ready(function () {
+            const triviaUrl = "https://uselessfacts.jsph.pl/random.json?language=en";
+            $("#triviaBtn").click(function () {
+                $.getJSON(triviaUrl)
+                    .done(function (data) {
+                        const tri = data.text;
+                        $("#triviaD").text(tri);
+                        console.log(data);
+                    })
+            })
+        })
+
+        //Advice API
+        // api get boomed
+
+        $(document).ready(function () {
+            const adviceUrl = "https://api.adviceslip.com/advice";
+            $("#adviceBtn").click(function () {
+                $.getJSON(adviceUrl)
+                    .done(function (data) {
+                        console.log(data);
+                        const adc = data.slip.advice;
+                        $("#adviceD").text(adc);
+                    });
+            });
+        });
+
+        // Activity Generator api
+        // api is boomed i think
+        $(document).ready(function () {
+            const activityUrl = "https://www.boredapi.com/api/activity";
+            $("#activityBtn").click(function () {
+                $.getJSON(activityUrl)
+                    .done(function (data) {
+                        console.log(data);
+                    });
+            });
+        });
+
+
+        //cat(car) Api
+
+        $(document).ready(function () {
+            const catUrl = `https://api.thecatapi.com/v1/images/search`;
+            $("#catBtn").click(function () {
+                $.getJSON(catUrl)
+                    .done(function (data) {
+                        const cat = data[0].url;
+                        $("#catImg").attr("src", cat);
+                        console.log(data);
+                    });
+
+            });
+
+        });
+
+        // dog ceo
+
+        $(document).ready(function () {
+            const dogUrl = `https://dog.ceo/api/breeds/image/random`;
+
+            $("#dogBtn").click(function () {
+
+                $.getJSON(dogUrl)
+                    .done(function (data) {
+                        const dog = data.message;
+                        $("#resim").attr("src", dog);
+                        console.log(data);
+
+                    });
+
+            })
+        });
+
+        // hava durumu apisi
+        $(document).ready(function () {
+            $('#getWeather').click(function () {
+                const city = $('#cityInput').val(); // input'tan şehir adını al
+                const apiKey = '230b93b3c9b9e2d204473361d5f50e35'; // kendi API anahtarını buraya yaz
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=tr`;
+
+                // API'ye istek at
+                $.getJSON(apiUrl)
+                    .done(function (data) {
+                        // API'den gelen veriler
+                        const cityName = data.name;
+                        const temp = data.main.temp;
+                        const description = data.weather[0].description;
+                        const iconCode = data.weather[0].icon;
+                        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+                        // HTML içeriği oluştur
+                        const html = `
+                <h3>${cityName}</h3>
+                <img src="${iconUrl}" alt="${description}">
+                <p>${temp}°C, ${description}</p>
+              `;
+                        $("#cityInput").val("")
+
+                        // Kutunun içine yerleştir
+                        $('#weatherBox1').html(html);
+                    })
+
+                    .fail(function () {
+                        // Hatalı şehir adı girildiyse
+                        $('#weatherBox1').html('<p>City not found 😢</p>');
+                    });
+            });
+        });
+
+        //shopping list
+
+        $(document).ready(function () {
+            $("#shoppingList").sortable();
+            let total = 0;
+
+            $("#addItem").click(function () {
+                const name = $("#itemName").val().trim();
+                const price = parseFloat($("#itemPrice").val());
+
+                if (name === "" || isNaN(price)) return;
+
+                $("#shoppingList").append(
+                    `<li class="liShop"> 
+                        ${name} - ¥${price.toFixed(2)}
+                        <button class ="remove"> Delete </button>
+                        </li>`
+                );
+
+                total += price;
+                $("#total").text("¥" + total.toFixed(2));
+
+                $("#itemName").val("");
+                $("#itemPrice").val("");
+
+            });
+            $("#shoppingList").on("click", ".remove", function () {
+                const li = $(this).parent();
+                const text = li.text();
+
+                const match = text.match(/¥(\d+(\.\d+)?)/);
+                if (match) {
+                    const price = parseFloat(match[1]);
+                    total -= price;
+                    $("#total").text("¥" + total.toFixed(2));
+                }
+                li.remove();
+            });
+        });
+
+        //Notepad clone i think
+
+        $(document).ready(function () {
+            $("#noteList").sortable();
+
+            loadNotes();
+
+            function addNote() {
+                const noteText = $("#noteInput").val().trim();
+
+                if (noteText === "") return;
+
+                const timestamp = new Date().toLocaleString();
+                const noteObj = {
+                    text: noteText,
+                    time: timestamp
+                };
+
+                appendNoteToList(noteObj);
+
+                saveNoteToStorage(noteObj);
+
+                $("#noteInput").val("");
+
+            }
+            function appendNoteToList(noteObj) {
+                $("#noteList").append(
+                    `<li class="libaba">
+                <span><strong>${noteObj.text}</strong><br><small>${noteObj.time}</small></span>
+                <button class="editBtn">Edit </button>
+                <button class="deleteBtn">Delete</button>
+            </li>`
+                );
+
+
+            }
+
+            function saveNoteToStorage(noteObj) {
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.push(noteObj);
+                localStorage.setItem("notes", JSON.stringify(notes));
+            }
+            function loadNotes() {
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.forEach(note => appendNoteToList(note));
+            }
+
+            $("#noteList").on("click", ".deleteBtn", function () {
+                const index = $(this).parent().index();
+                $(this).parent().remove();
+
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+                notes.splice(index, 1);
+                localStorage.setItem("notes", JSON.stringify(notes));
+            });
+
+            $("#noteList").on("click", ".editBtn", function () {
+                const li = $(this).parent();
+                const index = li.index();
+                let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+                const currentText = notes[index].text;
+                const newText = prompt("Write new note: ", currentText);
+
+                if (newText !== null && newText.trim() !== "") {
+                    notes[index].text = newText.trim();
+                    notes[index].time = new Date().toLocaleString();
+
+                    localStorage.setItem("notes", JSON.stringify(notes));
+                    $("#noteList").empty();
+                    loadNotes();
+                }
+            })
+
+            $("#addNote").click(function () {
+                addNote();
+            });
+            $("#noteInput").keydown(function (e) {
+                if (e.key === "Enter") {
+                    addNote();
+                }
+            })
+        });
+
+
+        //Coundown Checklist
+
+
+        $(document).ready(function () {
+            $("#cchecklist li").each(function () {
+                let $li = $(this);
+                let time = parseInt($li.attr("data-time"));
+
+                let interval = setInterval(function () {
+                    if ($li.hasClass("done")) {
+                        clearInterval(interval); // if mission is compliated stop the time
+                        return;
+                    }
+
+                    time--;
+                    $li.find(".timer").text(time);
+
+                    if (time <= 0) {
+                        clearInterval(interval);
+                        $li.addClass("expired");
+                        $li.find(".timer").text("time is up!");
+                    }
+                }, 1000);
+            });
+
+            // mission complated sign
+            $("#cchecklist").on("click", "li", function () {
+                if (!$(this).hasClass("expired")) {
+                    $(this).toggleClass("done");
+                }
+            });
+        });
+
+        // checklist
+
+        $(function () {
+            $("#checkList").on("click", "li", function () {
+                $(this).toggleClass("checked");
+            });
+        });
+
+        //Drag and Sort 
+
+        $(function () {
+            $("#sortable").sortable(); // burası her şeyi başlatıyor
+        });
+
+        // weather app
+        $(document).ready(function () {
+            const weatherStatus = ["☀️", "🌧️", "❄️", "💨", "⛅", "🌩️", "☁️"];
+
+            $('#weatherButton').click(function () {
+                const random = Math.floor(Math.random() * weatherStatus.length);
+                const chosen = weatherStatus[random];
+
+                $('#weatherBox').fadeOut(200, function () {
+                    $(this).text(chosen).fadeIn(200);
+                });
+            });
+        });
+
+        // fade sQ
+
+        $(document).ready(function () {
+            $('#showBtn').click(function () {
+                $('#textShow').fadeIn();
+            });
+
+            $('#hideBtn').click(function () {
+                $('#textShow').fadeOut();
+            });
+
+        });
+
+
+        // quiz
+        $(document).ready(function () {
+            $('.answer').click(function () {
+                let isCorrect = $(this).data('correct');
+                if (isCorrect) {
+                    $('#resultA').text('Ture!').css('color', 'green');
+                } else {
+                    $('#resultA').text('False!').css('color', 'red');
+                }
+            });
+        });
+        // click button 
+        $(document).ready(function () {
+            $('#btnclk').click(function () {
+                $('#btntxt').text('WOW!!! You clicked button!');
+            });
+        });
+
+        // To do list codes starts // With localStorage
+        $(document).ready(function () {
+            // when click add button
+
+            function uploadTask() {
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                $("#TaskList").empty();
+                tasks.forEach(function (task) {
+                    $("#TaskList").append("<li>" + task + "</li>");
+                });
+            }
+
+            $(function () {
+                $("#TaskList").sortable();
+            });
+
+            function saveTask() {
+                const tasks = [];
+                $("#TaskList li").each(function () {
+                    tasks.push($(this).text());
+                });
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            }
+
+            uploadTask();
+
+
+            $("#addBtn").click(function () {
+                const metin = $("#taskInput").val().trim();
+
+                if (metin !== "") {
+                    $("#TaskList").append("<li>" + metin + "</li>");
+                    $("#taskInput").val(""); // clear input
+                    saveTask();
+                }
+            });
+
+            // when press li
+            $("#TaskList").on("click", "li", function () {
+                $(this).remove();
+                saveTask();
+
+            });
+        });
+        //to do list codes ends
+
+
+
+        $(document).ready(function () {
+            let counter = 0;
+
+            $("#pluss").click(function () {
+                counter++;
+                $("#numberx").text(counter);
+            });
+
+            $("#min").click(function () {
+                counter--;
+                $("#numberx").text(counter);
+            });
+
+            $("#res").click(function () {
+                counter = 0;
+                $("#numberx").text(counter);
+            });
+        });
+
+
+        function Delete() {
+            const img = document.getElementById("image");
+            img.remove();
+        }
+
+        function hide() {
+            document.getElementById("image2").style.display = "none";
+        }
+
+        function show() {
+            document.getElementById("image2").style.display = "inline";
+        }
+
+        function bigImg(z) {
+            z.style.height = "240px";
+            z.style.width = "400px";
+        }
+
+        function normalImg(z) {
+            z.style.height = "120px";
+            z.style.width = "200px";
+        }
+
+        function myFunction() {
+            document.getElementById("aaa").innerHTML = "Sakura";
+        }
+
+        function red1() {
+            document.getElementById("red").style.color = "red";
+        }
+
+        //  function purple1() {
+        //    document.getElementById("red").style.color = "purple";
+        //}
+
+        function red2() {
+            document.getElementById("purple").style.color = "red";
+        }
+
+        function purple2() {
+            document.getElementById("purple").style.color = "purple";
+        }
+
+        function dbFunctoin() {
+            document.getElementById("doubleClick").innerHTML += "Watermelon ";
+        }
+
+        function calculate(x) {
+            const s1 = parseFloat(document.getElementById('number1').value);
+            const s2 = parseFloat(document.getElementById('number2').value);
+            let result;
+
+            if (isNaN(s1) || isNaN(s2)) {
+                result = 'Please enter two numbers.';
+            } else {
+                switch (x) {
+                    case '+': result = s1 + s2; break;
+                    case '-': result = s1 - s2; break;
+                    case '*': result = s1 * s2; break;
+                    case '/':
+                        result = s2 !== 0 ? s1 / s2 : 'It cannot be divided by zero!';
+                        break;
+                    default: result = 'Invalid operation';
+                }
+            }
+
+            document.getElementById('result').innerText = 'Result: ' + result;
+        }
+
+
+        $(document).ready(function () {
+            function yukleG() {
+                const gorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
+                $('#list').empty();
+                gorevler.forEach(function (gorev) {
+                    $("#list").append("<li>" + gorev + "<li>");
+                });
+            }
+
+            function kaydetG() {
+                const gorevler = [];
+                $("#list li") / each(function () {
+                    gorevler.push($(this).text());
+                });
+                localStorage.setItem("gorevler", JSON.stringify(gorevler));
+            }
+        });
+
+        function addTask() {
+            const input = document.getElementById("task");
+            const list = document.getElementById("list");
+
+            const text = input.value.trim();
+            if (text === "")
+                return;
+
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${text}</span><button class="delete" onclick="this.parentElement.remove()">delete</button>`;
+            list.appendChild(li);
+
+            input.value = "";
+
+        }
+
+    </script>
+</body>
+
+</html>
